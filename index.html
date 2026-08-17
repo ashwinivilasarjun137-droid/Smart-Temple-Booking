@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Smart Temple Crowd Booking System
+    </title>
+
+
+    <!-- Leaflet CSS -->
+
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-container">
+
+        <h1>
+            🛕 Smart Temple Booking
+        </h1>
+
+        <p>
+            Crowd Management & Visitor Booking System
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+<!-- =====================================================
+     TEMPLE SELECTION
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        🛕 Select Temple
+    </h2>
+
+
+    <label for="eventSelect">
+        Temple
+    </label>
+
+    <select id="eventSelect">
+
+        <option value="">
+            -- Select Temple --
+        </option>
+
+    </select>
+
+
+    <div id="templeInfo"></div>
+
+</section>
+
+
+
+<!-- =====================================================
+     DATE SELECTION
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        📅 Select Date
+    </h2>
+
+
+    <label for="dateSelect">
+        Date
+    </label>
+
+    <select id="dateSelect">
+
+        <option value="">
+            -- Select Date --
+        </option>
+
+    </select>
+
+</section>
+
+
+
+<!-- =====================================================
+     SESSION SELECTION
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        ⏰ Select Session
+    </h2>
+
+
+    <label for="sessionSelect">
+        Session
+    </label>
+
+    <select id="sessionSelect">
+
+        <option value="">
+            -- Select Session --
+        </option>
+
+    </select>
+
+
+    <div id="sessionInfo"></div>
+
+</section>
+
+
+
+<!-- =====================================================
+     VISITOR DETAILS
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        👤 Visitor Details
+    </h2>
+
+
+    <form id="bookingForm">
+
+
+        <label for="visitorName">
+            Full Name
+        </label>
+
+        <input
+            type="text"
+            id="visitorName"
+            placeholder="Enter your name"
+            required
+        >
+
+
+
+        <label for="contact">
+            Contact Number
+        </label>
+
+        <input
+            type="tel"
+            id="contact"
+            placeholder="10 digit mobile number"
+            maxlength="10"
+            required
+        >
+
+
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="Enter email"
+        >
+
+
+
+        <label for="adults">
+            Adults
+        </label>
+
+        <input
+            type="number"
+            id="adults"
+            min="0"
+            value="1"
+        >
+
+
+
+        <label for="children">
+            Children
+        </label>
+
+        <input
+            type="number"
+            id="children"
+            min="0"
+            value="0"
+        >
+
+
+
+        <label for="seniorCitizens">
+            Senior Citizens
+        </label>
+
+        <input
+            type="number"
+            id="seniorCitizens"
+            min="0"
+            value="0"
+        >
+
+
+        <p id="visitorCount">
+
+            Total Visitors:
+            <strong>1</strong>
+
+        </p>
+
+
+    </form>
+
+</section>
+
+
+
+<!-- =====================================================
+     ROUTE SELECTION
+===================================================== -->
+
+<section class="card">
+
+    <h2>
+        📍 Route & Location
+    </h2>
+
+
+    <p>
+        Choose how you want to calculate the route.
+    </p>
+
+
+    <label for="routeStart">
+        Route Starting Point
+    </label>
+
+
+    <select id="routeStart">
+
+        <option value="college">
+            🏫 Sahyadri College of Engineering & Management
+        </option>
+
+        <option value="gps">
+            📍 My Current Location
+        </option>
+
+    </select>
+
+
+    <button
+        type="button"
+        id="locationBtn"
+    >
+        📍 Get My Current Location
+    </button>
+
+
+    <p id="locationStatus">
+
+        Route start:
+        Sahyadri College
+
+    </p>
+
+
+    <div id="locationDetails"></div>
+
+
+    <!-- MAP -->
+
+    <div
+        id="map"
+        style="
+            width:100%;
+            height:450px;
+            margin-top:20px;
+            border-radius:12px;
+        "
+    ></div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     BOOKING BUTTON
+===================================================== -->
+
+<section class="card">
+
+    <button
+        type="button"
+        id="confirmBookingBtn"
+        class="primary-btn"
+    >
+
+        🎟️ Confirm Booking
+
+    </button>
+
+
+    <div id="bookingMessage"></div>
+
+</section>
+
+
+
+<!-- =====================================================
+     BOOKING RESULT
+===================================================== -->
+
+<section
+    class="card"
+    id="bookingResult"
+    style="display:none"
+>
+
+    <h2>
+        🎟️ Booking Confirmed
+    </h2>
+
+
+    <div id="bookingDetails"></div>
+
+
+    <div
+        id="qrCode"
+        style="margin-top:20px"
+    ></div>
+
+</section>
+
+<!-- =====================================================
+     MY BOOKINGS
+===================================================== -->
+
+<section
+    class="card"
+    id="myBookingsSection"
+>
+
+    <h2>
+        📋 My Bookings
+    </h2>
+
+    <p>
+        View your submitted bookings and manage them.
+    </p>
+
+    <div class="booking-actions">
+        <button
+            type="button"
+            id="loadBookingsBtn"
+            class="primary-btn"
+        >
+            📋 View My Bookings
+        </button>
+    </div>
+
+    <div id="bookingsList"></div>
+
+</section>
+
+<!-- =====================================================
+     MY BOOKINGS
+===================================================== -->
+
+<section class="card">
+
+    <h2 id="myBookingsSection">📋 My Bookings</h2>
+
+    <!-- SEARCH -->
+
+    <label for="bookingSearch">
+        🔍 Search Booking
+    </label>
+
+    <input
+        type="text"
+        id="bookingSearch"
+        placeholder="Search by name, booking ID or contact"
+    >
+
+
+    <!-- DATE FILTER -->
+
+    <label for="bookingDateFilter">
+        📅 Filter by Date
+    </label>
+
+    <input
+        type="date"
+        id="bookingDateFilter"
+    >
+
+
+    <!-- STATUS FILTER -->
+
+    <label for="bookingStatusFilter">
+        📌 Filter by Status
+    </label>
+
+    <select id="bookingStatusFilter">
+
+        <option value="">
+            All Statuses
+        </option>
+
+        <option value="Confirmed">
+            Confirmed
+        </option>
+
+        <option value="Cancelled">
+            Cancelled
+        </option>
+
+    </select>
+
+
+    <button
+        type="button"
+        id="loadBookingsBtn"
+        onclick="viewMyBookings()">
+        🔍 View My Bookings
+    </button>
+
+
+    <div
+        id="bookingsList"
+        style="margin-top:20px"
+    ></div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- Leaflet JS -->
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
+
+
+<!-- QR Code library -->
+
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+></script>
+
+
+
+<!-- Your JavaScript -->
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>

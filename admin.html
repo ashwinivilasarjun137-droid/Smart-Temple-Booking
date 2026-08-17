@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Smart Temple - Admin Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>
+        👨‍💼 Smart Temple Admin Dashboard
+    </h1>
+
+    <a href="/">
+        ← Visitor Page
+    </a>
+
+</header>
+
+
+<main>
+
+<section class="card">
+
+    <h2>
+        📊 Dashboard
+    </h2>
+
+    <div class="crowd-grid">
+
+        <div>
+            🛕
+            <strong id="templeCount">
+                0
+            </strong>
+            <br>
+            Temples
+        </div>
+
+        <div>
+            🎟️
+            <strong id="bookingCount">
+                0
+            </strong>
+            <br>
+            Bookings
+        </div>
+
+        <div>
+            👥
+            <strong id="visitorCount">
+                0
+            </strong>
+            <br>
+            Visitors
+        </div>
+
+        <div>
+            ✅
+            <strong id="confirmedCount">
+                0
+            </strong>
+            <br>
+            Confirmed
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="card">
+
+    <h2>
+        🎟️ All Bookings
+    </h2>
+
+    <div id="adminMessage">
+        Loading...
+    </div>
+
+    <div style="overflow-x:auto;">
+
+        <table
+            id="bookingTable"
+            border="1"
+            cellpadding="10"
+            width="100%"
+        >
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Booking Code</th>
+
+                    <th>Visitor</th>
+
+                    <th>Contact</th>
+
+                    <th>Visitors</th>
+
+                    <th>Date</th>
+
+                    <th>Session</th>
+
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody id="bookingBody">
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>
